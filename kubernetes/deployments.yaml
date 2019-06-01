@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1  
+kind: Deployment  
+metadata:  
+  name: hello-service-prod
+spec:  
+  replicas: 1  
+  template:  
+    metadata:  
+      labels:  
+        app: hello-service
+        version: prod 
+    spec:  
+      containers:  
+        - name: hello-app  
+          image: registry.hub.docker.com/bashdocker/nodejs-helloworld:latest
+          imagePullPolicy: IfNotPresent  
+          env:  
+            - name: "SERVICE_NAME"  
+              value: "Hello KUBE Service 1"  
+          ports:  
+            - containerPort: 3000  
+          livenessProbe:  
+            httpGet:  
+              path: /  
+              port: 3000
+            initialDelaySeconds: 5  
+            periodSeconds: 5
+---
+
+apiVersion: extensions/v1beta1  
+kind: Deployment  
+metadata:  
+  name: hello-service-canary
+spec:  
+  replicas: 1  
+  template:  
+    metadata:  
+      labels:  
+        app: hello-service
+        version: canary
+    spec:  
+      containers:  
+        - name: hello-app  
+          image: registry.hub.docker.com/bashdocker/nodejs-helloworld:latest
+          imagePullPolicy: IfNotPresent  
+          env:  
+            - name: "SERVICE_NAME"  
+              value: "Hello KUBE Service 2"  
+          ports:  
+            - containerPort: 3000  
+          livenessProbe:  
+            httpGet:  
+              path: /  
+              port: 3000
+            initialDelaySeconds: 5  
+            periodSeconds: 5
