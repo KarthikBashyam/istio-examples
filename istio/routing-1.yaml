@@ -11,4 +11,4 @@ spec:
   - route:
     - destination:
         host: hello-service
-        subset: canary
+        subset: prod
