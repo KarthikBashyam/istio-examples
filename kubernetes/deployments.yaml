@@ -25,6 +25,13 @@ spec:
               port: 3000
             initialDelaySeconds: 5  
             periodSeconds: 5
+          volumeMounts:
+            - name: app-config-data
+              mountPath: /opt/apps/config
+      volumes:
+        - name : app-config-data
+          configMap:
+            name : config-data
 ---
 
 apiVersion: extensions/v1beta1  
@@ -54,3 +61,10 @@ spec:
               port: 3000
             initialDelaySeconds: 5  
             periodSeconds: 5
+          volumeMounts:
+            - name: app-config-data
+              mountPath: /opt/apps/config
+      volumes:
+        - name : app-config-data
+          configMap:
+            name : config-data
