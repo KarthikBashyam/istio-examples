@@ -3,7 +3,11 @@ kind: Deployment
 metadata:  
   name: hello-service-prod
 spec:  
-  replicas: 1  
+  replicas: 1
+  strategy:  
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable : 0
   template:  
     metadata:  
       labels:  
@@ -26,10 +30,10 @@ spec:
             initialDelaySeconds: 5  
             periodSeconds: 5
           volumeMounts:
-            - name: app-config-data
+            - name: app-config
               mountPath: /opt/apps/config
       volumes:
-        - name : app-config-data
+        - name : app-config
           configMap:
             name : config-data
 ---
@@ -39,7 +43,11 @@ kind: Deployment
 metadata:  
   name: hello-service-canary
 spec:  
-  replicas: 1  
+  replicas: 1
+  strategy:  
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable : 0  
   template:  
     metadata:  
       labels:  
